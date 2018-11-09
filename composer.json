@@ -1,0 +1,19 @@
+{
+    "name": "mihaiblebea/domino",
+    "description": "Domino is a basic ORM for PHP using mysql PDO",
+    "authors": [
+        {
+            "name": "Mihai Blebea",
+            "email": "mihaiserban.blebea@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Domino\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0"
+    }
+}
