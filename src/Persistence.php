@@ -2,7 +2,16 @@
 
 namespace Domino;
 
-use Exception;
+use Domino\Interfaces\{
+    PersistenceInterface,
+    ConnectorInterface
+};
+use Domino\Exceptions\{
+    TableNotSetException,
+    AttributeArrayNullException,
+    NullSchemaException,
+    InvalidParamsException
+};
 
 
 class Persistence implements PersistenceInterface
@@ -18,7 +27,7 @@ class Persistence implements PersistenceInterface
     private $table;
 
 
-    public function __construct(Connector $connector)
+    public function __construct(ConnectorInterface $connector)
     {
         $this->connector = $connector;
     }
@@ -27,7 +36,7 @@ class Persistence implements PersistenceInterface
     {
         if($this->table === null)
         {
-            throw new \Exception('Table is not setup, use setTable()', 1);
+            throw new TableNotSetException(1);
         }
         return $this->table;
     }
@@ -87,7 +96,7 @@ class Persistence implements PersistenceInterface
     {
         if(count($array) === 0)
         {
-            throw new \Exception('Attribute array doesn\'t is null', 1);
+            throw new AttributeArrayNullException(1);
         }
         $create_schema = $this->createSchema($array);
 
@@ -122,13 +131,13 @@ class Persistence implements PersistenceInterface
     {
         if(count($array) === 0)
         {
-            throw new \Exception('Attribute array doesn\'t is null', 1);
+            throw new AttributeArrayNullException(1);
         }
         $update_schema = $this->updateSchema($array);
 
         if($this->schema === null)
         {
-            throw new \Exception('Please add conditions before calling update', 1);
+            throw new NullSchemaException(1);
         }
         return $this->connect()
                     ->prepare("UPDATE " . $this->getTable() . " SET " . $update_schema . " WHERE " . $this->schema)
@@ -171,7 +180,7 @@ class Persistence implements PersistenceInterface
     {
         if($this->schema === null)
         {
-            throw new Exception("No conditions where selected");
+            throw new NullSchemaException(1));
         }
         $result = $this->connect()
                        ->query("SELECT * FROM " . $this->getTable() . " WHERE " . $this->schema)
@@ -184,7 +193,7 @@ class Persistence implements PersistenceInterface
     {
         if($this->schema === null)
         {
-            throw new Exception("No conditions were selected");
+            throw new NullSchemaException(1));
         }
         $result = $this->connect()
                        ->query("SELECT * FROM " . $this->getTable() . " WHERE " . $this->schema . $this->sortSchema . $this->limitSchema)
@@ -212,7 +221,7 @@ class Persistence implements PersistenceInterface
         $sortSchema = "";
         if(in_array($order, ["ASC", "DESC"]) === false)
         {
-            throw new Exception("Invalid sorting params.");
+            throw new InvalidParamsException(1);
         }
         $this->sortSchema = " ORDER BY " . $sortBy . " " . strtoupper($order);
         return $this;
@@ -238,7 +247,7 @@ class Persistence implements PersistenceInterface
     {
         if($this->schema === null)
         {
-            throw new Exception("No conditions were selected");
+            throw new NullSchemaException(1);
         }
         $result = $this->connect()
                        ->prepare("DELETE FROM " . $this->getTable() . " WHERE " . $this->schema)

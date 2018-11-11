@@ -2,8 +2,10 @@
 
 namespace Domino;
 
+use Domino\Interfaces\ConnectorInterface;
 
-class Connector
+
+class Connector implements ConnectorInterface
 {
     private $host;
 
