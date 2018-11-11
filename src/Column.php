@@ -99,6 +99,12 @@ class Column implements ColumnInterface
         return $this;
     }
 
+    public function isUnique()
+    {
+        $this->schema .= ' UNIQUE';
+        return $this;
+    }
+
     public function __toString()
     {
         return $this->schema;

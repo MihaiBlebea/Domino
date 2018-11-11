@@ -65,7 +65,7 @@ class Blueprint implements BlueprintInterface
             $sql = "CREATE TABLE $this->table ($this->schema)";
             $this->connect()->exec($sql);
             echo 'Table ' . $this->table . ' created successfully';
-        } catch(PDOException $e) {
+        } catch(\PDOException $e) {
             var_dump($e->getMessage());
         }
         $this->flush();
