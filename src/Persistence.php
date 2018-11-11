@@ -200,10 +200,6 @@ class Persistence implements PersistenceInterface
                        ->fetchAll(\PDO::FETCH_ASSOC);
 
         $this->clearSchema();
-        if(count($result) === 1)
-        {
-            return $result[0];
-        }
         return $result;
     }
 
