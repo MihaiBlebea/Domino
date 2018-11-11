@@ -180,7 +180,7 @@ class Persistence implements PersistenceInterface
     {
         if($this->schema === null)
         {
-            throw new NullSchemaException(1));
+            throw new NullSchemaException(1);
         }
         $result = $this->connect()
                        ->query("SELECT * FROM " . $this->getTable() . " WHERE " . $this->schema)
@@ -193,7 +193,7 @@ class Persistence implements PersistenceInterface
     {
         if($this->schema === null)
         {
-            throw new NullSchemaException(1));
+            throw new NullSchemaException(1);
         }
         $result = $this->connect()
                        ->query("SELECT * FROM " . $this->getTable() . " WHERE " . $this->schema . $this->sortSchema . $this->limitSchema)
