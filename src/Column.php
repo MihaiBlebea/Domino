@@ -33,6 +33,27 @@ class Column
         return new self($name, 'DATETIME');
     }
 
+    public static function tinyText(String $name, Int $length = null)
+    {
+        return new self($name, 'TINYTEXT', $length);
+    }
+
+    public static function text(String $name, Int $length = null)
+    {
+        return new self($name, 'TEXT', $length);
+    }
+
+    public static function mediumText(String $name, Int $length = null)
+    {
+        return new self($name, 'MEDIUMTEXT', $length);
+    }
+
+    public static function longText(String $name, Int $length = null)
+    {
+        return new self($name, 'LONGTEXT', $length);
+    }
+
+
     public function __construct(String $name, String $type, Int $length = null)
     {
         $this->schema = $name . " " . $type;
