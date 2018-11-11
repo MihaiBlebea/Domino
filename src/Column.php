@@ -2,8 +2,10 @@
 
 namespace Domino;
 
+use Domino\Interfaces\ColumnInterface;
 
-class Column
+
+class Column implements ColumnInterface
 {
     private $schema;
 

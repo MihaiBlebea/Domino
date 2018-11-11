@@ -2,10 +2,14 @@
 
 namespace Domino;
 
-use Domino\Interfaces\ConnectorInterface;
+use Domino\Interfaces\{
+    ConnectorInterface,
+    ColumnInterface,
+    BlueprintInterface
+};
 
 
-class Blueprint
+class Blueprint implements BlueprintInterface
 {
     private $connector;
 
@@ -30,7 +34,7 @@ class Blueprint
         return $this;
     }
 
-    public function add(Column $column)
+    public function add(ColumnInterface $column)
     {
         $this->columns[] = (string) $column;
         return $this;

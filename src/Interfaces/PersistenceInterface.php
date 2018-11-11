@@ -2,10 +2,12 @@
 
 namespace Domino\Interfaces;
 
+use Domino\Interfaces\ConnectorInterface;
+
 
 interface PersistenceInterface
 {
-    public function __construct(Connector $connector);
+    public function __construct(ConnectorInterface $connector);
 
     public function getTable();
 
