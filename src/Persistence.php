@@ -100,9 +100,12 @@ class Persistence implements PersistenceInterface
         }
         $create_schema = $this->createSchema($array);
 
-        return $this->connect()
-                    ->prepare("INSERT INTO " . $this->getTable() . $create_schema)
-                    ->execute();
+        $result = $this->connect()
+                       ->prepare("INSERT INTO " . $this->getTable() . $create_schema)
+                       ->execute();
+
+        $this->clearSchema();
+        return $result;
     }
 
     private function createSchema(array $array)
@@ -139,9 +142,13 @@ class Persistence implements PersistenceInterface
         {
             throw new NullSchemaException(1);
         }
-        return $this->connect()
-                    ->prepare("UPDATE " . $this->getTable() . " SET " . $update_schema . " WHERE " . $this->schema)
-                    ->execute();
+
+        $result = $this->connect()
+                       ->prepare("UPDATE " . $this->getTable() . " SET " . $update_schema . " WHERE " . $this->schema)
+                       ->execute();
+
+        $this->clearSchema();
+        return $result;
     }
 
     private function updateSchema(array $array)
@@ -173,7 +180,10 @@ class Persistence implements PersistenceInterface
                               ->query("SELECT COUNT(*) as count FROM " . $this->getTable())
                               ->fetch();
         }
-        return intval($statement->count);
+        $result = intval($statement->count);
+
+        $this->clearSchema();
+        return $result;
     }
 
     public function selectOne()
