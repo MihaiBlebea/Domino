@@ -116,13 +116,13 @@ class Persistence implements PersistenceInterface
 
         foreach($array as $index => $item)
         {
+            $insertKeySchema   .= $index;
+            $insertValueSchema .= $item === null ? 'NULL' : "'" . $item . "'";
+
             if($i < count($array) - 1)
             {
-                $insertKeySchema .= $index . ', ';
-                $insertValueSchema .= "'" . $item . "', ";
-            } else {
-                $insertKeySchema .= $index;
-                $insertValueSchema .= "'" . $item . "'";
+                $insertKeySchema   .= ', ';
+                $insertValueSchema .= ', ';
             }
             $i++;
         }
@@ -155,13 +155,14 @@ class Persistence implements PersistenceInterface
     {
         $updateSchema = '';
         $i = 0;
+
         foreach($array as $index => $item)
         {
+            $updateSchema .= $index . "=" . ($item === null ? 'NULL' : "'" . $item . "'");
+
             if($i < count($array) - 1)
             {
-                $updateSchema .= $index . "= '" . $item . "', ";
-            } else {
-                $updateSchema .= $index . "= '" . $item . "'";
+                $updateSchema .= ', ';
             }
             $i++;
         }
