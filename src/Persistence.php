@@ -189,12 +189,17 @@ class Persistence implements PersistenceInterface
 
     public function selectOne()
     {
-        if($this->schema === null)
+        $this->limit(1);
+        $query = "SELECT * FROM " . $this->getTable();
+
+        if($this->schema !== null)
         {
-            throw new NullSchemaException(1);
+            $query .= " WHERE " . $this->schema;
         }
+        $query .= $this->sortSchema . $this->limitSchema;
+
         $result = $this->connect()
-                       ->query("SELECT * FROM " . $this->getTable() . " WHERE " . $this->schema)
+                       ->query($query)
                        ->fetch(\PDO::FETCH_ASSOC);
         $this->clearSchema();
         return $result;
@@ -202,12 +207,16 @@ class Persistence implements PersistenceInterface
 
     public function select()
     {
-        if($this->schema === null)
+        $query = "SELECT * FROM " . $this->getTable();
+
+        if($this->schema !== null)
         {
-            throw new NullSchemaException(1);
+            $query .= " WHERE " . $this->schema;
         }
+        $query .= $this->sortSchema . $this->limitSchema;
+
         $result = $this->connect()
-                       ->query("SELECT * FROM " . $this->getTable() . " WHERE " . $this->schema . $this->sortSchema . $this->limitSchema)
+                       ->query($query)
                        ->fetchAll(\PDO::FETCH_ASSOC);
 
         $this->clearSchema();
